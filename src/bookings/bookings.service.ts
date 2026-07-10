@@ -1,15 +1,17 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 
 import { Booking } from './entities/booking.entity';
 import { ServicesService } from '../services/services.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingStatusDto } from './dto/update-booking-status.dto';
+import { QueryBookingDto } from './dto/query-booking.dto';
 import { BookingStatus } from '../common/enums/booking-status.enum';
 
 @Injectable()
@@ -21,10 +23,10 @@ export class BookingsService {
     private readonly servicesService: ServicesService,
   ) {}
 
-  async create(createBookingDto: CreateBookingDto) {
-    await this.servicesService.findOne(createBookingDto.serviceId);
+  async create(dto: CreateBookingDto) {
+    await this.servicesService.findOne(dto.serviceId);
 
-    const bookingDate = new Date(createBookingDto.bookingDate);
+    const bookingDate = new Date(dto.bookingDate);
     const today = new Date();
 
     bookingDate.setHours(0, 0, 0, 0);
@@ -36,35 +38,81 @@ export class BookingsService {
       );
     }
 
+    const duplicate = await this.bookingRepository.findOne({
+      where: {
+        serviceId: dto.serviceId,
+        bookingDate: dto.bookingDate,
+        bookingTime: dto.bookingTime,
+      },
+    });
+
+    if (duplicate) {
+      throw new ConflictException(
+        'Time slot already booked',
+      );
+    }
+
     const booking = this.bookingRepository.create({
-      ...createBookingDto,
+      ...dto,
       status: BookingStatus.PENDING,
     });
 
     return this.bookingRepository.save(booking);
   }
 
-  findAll() {
-    return this.bookingRepository.find({
-      relations: {
-        service: true,
-      },
-      order: {
-        createdAt: 'DESC',
-      },
-    });
+  async findAll(query: QueryBookingDto) {
+    const { page, limit, search, status } = query;
+
+    const qb = this.bookingRepository
+      .createQueryBuilder('booking')
+      .leftJoinAndSelect('booking.service', 'service');
+
+    if (search) {
+      qb.andWhere(
+        '(booking.customerName ILIKE :search OR booking.customerEmail ILIKE :search OR booking.customerPhone ILIKE :search)',
+        {
+          search: `%${search}%`,
+        },
+      );
+    }
+
+    if (status) {
+      qb.andWhere('booking.status = :status', {
+        status,
+      });
+    }
+
+    qb.skip((page - 1) * limit);
+
+    qb.take(limit);
+
+    qb.orderBy('booking.createdAt', 'DESC');
+
+    const [data, total] = await qb.getManyAndCount();
+
+    return {
+      data,
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async findOne(id: number) {
     const booking = await this.bookingRepository.findOne({
-      where: { id },
+      where: {
+        id,
+      },
       relations: {
         service: true,
       },
     });
 
     if (!booking) {
-      throw new NotFoundException('Booking not found');
+      throw new NotFoundException(
+        'Booking not found',
+      );
     }
 
     return booking;

@@ -28,7 +28,7 @@ import { BookingsModule } from './bookings/bookings.module';
 
         autoLoadEntities: true,
 
-        synchronize: true,
+        synchronize: false,
       }),
     }),
 
@@ -38,4 +38,4 @@ import { BookingsModule } from './bookings/bookings.module';
     BookingsModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

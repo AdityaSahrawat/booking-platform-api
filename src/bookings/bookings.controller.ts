@@ -6,6 +6,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -14,6 +15,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
+import { QueryBookingDto } from './dto/query-booking.dto';
 import { UpdateBookingStatusDto } from './dto/update-booking-status.dto';
 
 @ApiTags('Bookings')
@@ -24,18 +26,15 @@ export class BookingsController {
   ) {}
 
   @Post()
-  create(
-    @Body()
-    dto: CreateBookingDto,
-  ) {
+  create(@Body() dto: CreateBookingDto) {
     return this.bookingsService.create(dto);
   }
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.bookingsService.findAll();
+  findAll(@Query() query: QueryBookingDto) {
+    return this.bookingsService.findAll(query);
   }
 
   @ApiBearerAuth()
@@ -57,7 +56,10 @@ export class BookingsController {
     @Body()
     dto: UpdateBookingStatusDto,
   ) {
-    return this.bookingsService.updateStatus(id, dto);
+    return this.bookingsService.updateStatus(
+      id,
+      dto,
+    );
   }
 
   @ApiBearerAuth()
