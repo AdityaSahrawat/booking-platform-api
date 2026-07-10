@@ -12,6 +12,6 @@ import { ServicesService } from './services.service';
 
   providers: [ServicesService],
 
-  exports: [ServicesService],
+  exports: [ServicesService, TypeOrmModule],
 })
 export class ServicesModule {}

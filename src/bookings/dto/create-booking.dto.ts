@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  Matches,
 } from 'class-validator';
 
 export class CreateBookingDto {
@@ -21,6 +22,7 @@ export class CreateBookingDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
+  @Matches(/^\d{10}$/, { message: 'Phone number must be exactly 10 digits' })
   customerPhone: string;
 
   @ApiProperty()
@@ -37,6 +39,7 @@ export class CreateBookingDto {
     example: '10:00',
   })
   @IsString()
+  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: 'Time must be in HH:MM format' })
   bookingTime: string;
 
   @ApiProperty({

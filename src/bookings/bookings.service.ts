@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { ILike, Not, Repository } from 'typeorm';
 
 import { Booking } from './entities/booking.entity';
 import { ServicesService } from '../services/services.service';
@@ -43,6 +43,7 @@ export class BookingsService {
         serviceId: dto.serviceId,
         bookingDate: dto.bookingDate,
         bookingTime: dto.bookingTime,
+        status: Not(BookingStatus.CANCELLED),
       },
     });
 

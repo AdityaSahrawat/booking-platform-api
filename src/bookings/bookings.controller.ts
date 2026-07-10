@@ -9,9 +9,14 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
@@ -26,6 +31,10 @@ export class BookingsController {
   ) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create a new booking' })
+  @ApiResponse({ status: 201, description: 'Booking created successfully' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 409, description: 'Time slot already booked' })
   create(@Body() dto: CreateBookingDto) {
     return this.bookingsService.create(dto);
   }
@@ -33,6 +42,9 @@ export class BookingsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get()
+  @ApiOperation({ summary: 'Retrieve all bookings with search, status filtering, and pagination' })
+  @ApiResponse({ status: 200, description: 'List of bookings with metadata' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   findAll(@Query() query: QueryBookingDto) {
     return this.bookingsService.findAll(query);
   }
@@ -40,6 +52,10 @@ export class BookingsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get(':id')
+  @ApiOperation({ summary: 'Get a booking by ID' })
+  @ApiResponse({ status: 200, description: 'Booking details' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Booking not found' })
   findOne(
     @Param('id', ParseIntPipe)
     id: number,
@@ -50,6 +66,11 @@ export class BookingsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Patch(':id/status')
+  @ApiOperation({ summary: 'Update status of a booking' })
+  @ApiResponse({ status: 200, description: 'Booking status updated successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid status transition' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Booking not found' })
   updateStatus(
     @Param('id', ParseIntPipe)
     id: number,
@@ -65,6 +86,10 @@ export class BookingsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Patch(':id/cancel')
+  @ApiOperation({ summary: 'Cancel a booking' })
+  @ApiResponse({ status: 200, description: 'Booking cancelled successfully' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Booking not found' })
   cancel(
     @Param('id', ParseIntPipe)
     id: number,

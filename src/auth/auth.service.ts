@@ -33,9 +33,11 @@ export class AuthService {
       password: hashedPassword,
     });
 
+    const { password, ...userWithoutPassword } = user;
+
     return {
       message: 'User registered successfully',
-      user,
+      user: userWithoutPassword,
     };
   }
 
@@ -62,6 +64,7 @@ export class AuthService {
 
     return {
       access_token: await this.jwtService.signAsync(payload),
+      token_type: 'Bearer',
     };
   }
 }
