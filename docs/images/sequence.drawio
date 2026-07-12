@@ -1,0 +1,91 @@
+<mxfile host="Electron" modified="2026-07-12T16:00:00.000Z" agent="Mozilla/5.0" version="21.0.0" type="device">
+  <diagram id="SequenceDiagram" name="Sequence Page">
+    <mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Lifeline Client -->
+        <mxCell id="ll_client" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="100" y="80" width="100" height="400" as="geometry" />
+        </mxCell>
+        
+        <!-- Lifeline API Controller -->
+        <mxCell id="ll_controller" value="Controller Layer" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="300" y="80" width="100" height="400" as="geometry" />
+        </mxCell>
+        
+        <!-- Lifeline Service Layer -->
+        <mxCell id="ll_service" value="Service Layer" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="500" y="80" width="100" height="400" as="geometry" />
+        </mxCell>
+        
+        <!-- Lifeline Database -->
+        <mxCell id="ll_db" value="PostgreSQL DB" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="700" y="80" width="100" height="400" as="geometry" />
+        </mxCell>
+        
+        <!-- Call 1: client to controller -->
+        <mxCell id="call_1" value="POST /bookings" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="ll_client" target="ll_controller">
+          <mxGeometry x="0.05" y="10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <Array points="points">
+              <mxPoint x="200" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Call 2: controller to service -->
+        <mxCell id="call_2" value="createBooking(dto)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="ll_controller" target="ll_service">
+          <mxGeometry x="0.05" y="10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <Array points="points">
+              <mxPoint x="450" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Call 3: service to database -->
+        <mxCell id="call_3" value="INSERT INTO bookings" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="ll_service" target="ll_db">
+          <mxGeometry x="0.05" y="10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <Array points="points">
+              <mxPoint x="650" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Response 1: database to service -->
+        <mxCell id="resp_1" value="Saved Record" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="ll_db" target="ll_service">
+          <mxGeometry x="-0.05" y="-10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <Array points="points">
+              <mxPoint x="650" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Response 2: service to controller -->
+        <mxCell id="resp_2" value="Booking details" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="ll_service" target="ll_controller">
+          <mxGeometry x="-0.05" y="-10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <Array points="points">
+              <mxPoint x="450" y="370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Response 3: controller to client -->
+        <mxCell id="resp_3" value="201 Created" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="ll_controller" target="ll_client">
+          <mxGeometry x="-0.05" y="-10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <Array points="points">
+              <mxPoint x="200" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

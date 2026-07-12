@@ -1,0 +1,31 @@
+<mxfile host="Electron" modified="2026-07-12T16:00:00.000Z" agent="Mozilla/5.0" version="21.0.0" type="device">
+  <diagram id="ERDiagram" name="ER Diagram Page">
+    <mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- User Entity -->
+        <mxCell id="user_table" value="users&#xa;&#xa;+ id (PK, Serial)&#xa;+ name (Varchar)&#xa;+ email (Varchar, Unique)&#xa;+ password (Varchar)&#xa;+ createdAt (Timestamp)&#xa;+ updatedAt (Timestamp)" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fontStyle=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="50" y="100" width="220" height="170" as="geometry" />
+        </mxCell>
+        
+        <!-- Service Entity -->
+        <mxCell id="service_table" value="services&#xa;&#xa;+ id (PK, Serial)&#xa;+ title (Varchar)&#xa;+ description (Text)&#xa;+ duration (Int)&#xa;+ price (Decimal)&#xa;+ isActive (Boolean)&#xa;+ createdAt (Timestamp)&#xa;+ updatedAt (Timestamp)" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fontStyle=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="100" width="220" height="190" as="geometry" />
+        </mxCell>
+        
+        <!-- Booking Entity -->
+        <mxCell id="booking_table" value="bookings&#xa;&#xa;+ id (PK, Serial)&#xa;+ customerName (Varchar)&#xa;+ customerEmail (Varchar)&#xa;+ customerPhone (Varchar)&#xa;+ bookingDate (Date)&#xa;+ bookingTime (Varchar)&#xa;+ status (Enum)&#xa;+ notes (Text)&#xa;+ serviceId (FK -> services.id)&#xa;+ createdAt (Timestamp)&#xa;+ updatedAt (Timestamp)" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fontStyle=1;align=center;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="400" width="220" height="230" as="geometry" />
+        </mxCell>
+        
+        <!-- Relationship Connector -->
+        <mxCell id="rel_conn" value="1 to Many&#xa;(services has many bookings)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;" edge="1" parent="1" source="service_table" target="booking_table">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

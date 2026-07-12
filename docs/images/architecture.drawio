@@ -1,0 +1,56 @@
+<mxfile host="Electron" modified="2026-07-12T16:00:00.000Z" agent="Mozilla/5.0" version="21.0.0" type="device">
+  <diagram id="ArchitectureDiagram" name="Architecture Page">
+    <mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Client Element -->
+        <mxCell id="client" value="Client&#xa;(Postman / Browser)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="314" y="50" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Controller Layer -->
+        <mxCell id="controller" value="Presentation Layer&#xa;(NestJS Controllers)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="314" y="180" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Service Layer -->
+        <mxCell id="service" value="Business Logic Layer&#xa;(NestJS Services)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="314" y="310" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Repository Layer -->
+        <mxCell id="repository" value="Data Access Layer&#xa;(TypeORM Repositories)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="314" y="440" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Database -->
+        <mxCell id="database" value="PostgreSQL Database" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="339" y="570" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Connector 1 -->
+        <mxCell id="conn1" value="HTTP JSON" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="client" target="controller">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Connector 2 -->
+        <mxCell id="conn2" value="DTO Call" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="controller" target="service">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Connector 3 -->
+        <mxCell id="conn3" value="ORM Queries" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="service" target="repository">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Connector 4 -->
+        <mxCell id="conn4" value="SQL Execution" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="repository" target="database">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
