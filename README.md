@@ -2,6 +2,22 @@
 
 Backend REST API built with NestJS for the EN2H Backend Engineering Internship Assessment.
 
+## Quick Start
+
+```bash
+git clone https://github.com/AdityaSahrawat/booking-platform-api.git
+
+cd booking-platform-api
+
+docker compose up --build
+
+docker compose exec api npm run migration:run
+
+docker compose exec api npm run seed
+```
+
+Access Swagger UI at: [http://localhost:3000/api/v1/docs](http://localhost:3000/api/v1/docs)
+
 ## Tech Stack
 
 - **Framework**: NestJS

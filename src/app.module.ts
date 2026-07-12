@@ -41,6 +41,8 @@ import { BookingsModule } from './bookings/bookings.module';
         autoLoadEntities: true,
 
         synchronize: false,
+        migrations: [__dirname + '/database/migrations/*{.ts,.js}'],
+        migrationsRun: true,
       }),
     }),
 
